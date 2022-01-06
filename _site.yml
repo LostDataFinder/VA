@@ -1,0 +1,37 @@
+name: "VA"
+title: "Visual Analytics"
+description: |
+  My Website
+output_dir: "_site"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+  left:
+    - text: "Take-home exercise"
+      menu:
+        - text: "Exercise 1"
+          href: THex01.html
+        - text: "Exercise 2"
+          href: THex02.html
+        - text: "Exercise 3"
+          href: THex03.html
+        - text: "Exercise 4"
+          href: THex04.html
+        - text: "Exercise 5"
+          href: THex05.html
+        - text: "Exercise 6"
+          href: THex06.html
+        - text: "Exercise 7"
+          href: THex07.html
+        - text: "Exercise 8"
+          href: THex08.html 
+    - text: "DataViz Makeover"
+      menu:
+        - text: "DataViz 1"
+          href: DataViz1.html
+        - text: "DataViz 2"
+          href: DataViz2.html
+output: distill::distill_article

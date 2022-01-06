@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "This site contains coursework for ISSS608",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-06T20:45:21+08:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Visual Analytics",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-06T20:45:21+08:00"
+    }
+  ],
+  "collections": []
+}

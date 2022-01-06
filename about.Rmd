@@ -1,0 +1,10 @@
+---
+title: "About this site"
+description: |
+  This site contains coursework for ISSS608
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
