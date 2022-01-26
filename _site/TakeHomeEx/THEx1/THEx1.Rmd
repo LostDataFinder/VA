@@ -15,18 +15,8 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Installing and loading the required libraries
-```{r, echo=TRUE}
-packages = c('tidyverse','readxl','forcats','tidyr','gridExtra','scales')
 
-for (p in packages){
-  if(!require(p, character.only = T)){
-    install.packages(p)
-  }
-  library(p, character.only = T)
-}
-```
-# 1. Task 1: Pareto Chart for Returns by Sub-Category of Products
+# Task 1: Pareto Chart for Returns by Sub-Category of Products
 ## 1.1 Challenges
 1. There are 2 sheets provided in the Excel data, one containing the full list of orders with details including the order Sub-Category, and another sheet containing only the Order IDs of returned orders. Hence, there is a need to join the 2 sheets to obtain the full details of only the returned orders.
 
@@ -38,12 +28,33 @@ for (p in packages){
 3   For the visualisation, two chart types would be required ie bar chart for the count under each Sub-Category, and a line chart for the cumulative percentage. This would involve the use of a secondary y-axis and adjustment of the scales of each axis to ensure that the visualisation is clear.
 
 ## 1.2 Sketch of Proposed Visualisation
+
+The proposed visualisation would consist of bar chart with count of returned orders on the y-axis by Sub-Category sorted in descending order on the primary x-axis. 
+
+The secondary y-axis would a line chart showing the cumulative percentage of the returned orders.
+
+Additionally, there would be a horizontal reference line to show the 80% mark.
+
+The package 'tidyverse' would be used to format the data while the package 'readxl' would be used to read the .xls file.
+
 ![Sketch of Pareto Chart](./images/Sketch_Pareto.jpg)
 
 
 ## 1.3 Step-by-Step Data Visualisation Preparation
 
-### 1.3.1 Read Excel file
+### 1.3.1 Install and load required libraries
+```{r, echo=TRUE}
+packages = c('tidyverse','readxl')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### 1.3.2 Read Excel file
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 orders <- read_xls("data/Superstore-2021.xls",
                    sheet = "Orders")
@@ -51,14 +62,14 @@ returns <- read_xls("data/Superstore-2021.xls",
                     sheet = "Returns")
 ```
 
-### 1.3.2 Join Returns and Order Sheets to obtain Detailed list of Returned Orders
+### 1.3.3 Join Returns and Order Sheets to obtain Detailed list of Returned Orders
 ```{r, echo=TRUE}
 joined_tab <- left_join(returns, orders,
                         by = c("Order ID" = "Order ID"))
 names(joined_tab)[names(joined_tab) == "Sub-Category"] <- "SubCat"
 ```
 
-### 1.3.3 Count Returned Orders by Sub-Category and Sort Sub-Categories in Descending Order
+### 1.3.4 Count Returned Orders by Sub-Category and Sort Sub-Categories in Descending Order
 ```{r, echo=TRUE}
 FC <- as.data.frame(table(joined_tab$`SubCat`))
 names(FC)[names(FC) == "Var1"] <- "SubCat"
@@ -66,14 +77,14 @@ FC <- FC[order(FC$Freq, decreasing = TRUE),]
 FC$SubCat <- factor(FC$SubCat, levels=FC$SubCat)
 ```
 
-### 1.3.4 Compute Cumulative Frequency and express as Percentage
+### 1.3.5 Compute Cumulative Frequency and express as Percentage
 ```{r, echo=TRUE}
 FC$cumulative <- cumsum(FC$Freq)
 FC$cpercent<- 100*FC$cumulative/sum(FC$Freq)
 ```
 
 
-### 1.3.5 Plot Visualisation
+### 1.3.6 Plot Visualisation
 ```{r, echo=TRUE}
 ggplot(FC, aes(x=SubCat, y-Freq))  + 
   geom_bar(stat="identity", aes(y=Freq), fill="navy") +
@@ -89,7 +100,7 @@ ggplot(FC, aes(x=SubCat, y-Freq))  +
         axis.ticks = element_blank(),
         panel.background = element_blank())
 ```
-# 2. Task 2: Population Age-Sex Pyramid
+# Task 2: Population Age-Sex Pyramid
 ## 2.1 Challenges
 1. The original dataset provides the populations of males and females of various age bands living in different residential property types. Hence, there is a need to consolidate the populations of the same sex-age from the various property types.
 
@@ -99,28 +110,43 @@ ggplot(FC, aes(x=SubCat, y-Freq))  +
 
 ## 2.2 Sketch of Visualisation
 
+The visualisation would consist of horizontal bar charts. Male populations by age bands would be shown on the left side while female populations by age bands would be shown on the right side. 
+The y-axis would show the age bands in ascending order. 
+The x-axis would show the populations. The x-axis point between the male and female populations would be set at value 0, with positive numbers increasing from both sides of the point.
+
 ![Sketch of Population Pyramid](./images/Sketch_Population.jpg)
 
 
 ## 2.3 Step-by-Step Data Visualisation Preparation
 
-### 2.3.1 Read CSV file
+### 2.3.1 Install and load required libraries
+```{r, echo=TRUE}
+packages = c('tidyverse')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+### 2.3.2 Read CSV file
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 population <- read.csv("data/respopagesextod2021.csv")
 ```
 
-### 2.3.2 Extract Males Data
+### 2.3.3 Extract Males Data
 ```{r, echo=TRUE}
 males <- population %>% filter(population$Sex=="Males")
 males <- as.data.frame(males)
 ```
 
-### 2.3.3 Group and Summarise Males Data by Age Group
+### 2.3.4 Group and Summarise Males Data by Age Group
 ```{r, echo=TRUE}
 males <- males %>% group_by(AG) %>% summarise(cover = sum(Pop))
 ```
 
-### 2.3.4 Extract Starting Numeric Value of Males Age Group for Sorting
+### 2.3.5 Extract Starting Numeric Value of Males Age Group for Sorting
 ```{r, echo=TRUE}
 males$BandMinAge <- gsub('([0-9]+).*','\\1',males$AG)
 males$BandMinAge <- as.numeric(males$BandMinAge)
@@ -128,18 +154,18 @@ males <- males[order(males$BandMinAge, decreasing = FALSE),]
 males$Sex <- "Males"
 ```
 
-### 2.3.5 Extract Females Data
+### 2.3.6 Extract Females Data
 ```{r, echo=TRUE}
 females <- population %>% filter(population$Sex=="Females")
 females <- as.data.frame(females)
 ```
 
-### 2.3.6 Group and Summarise Females Data by Age Group
+### 2.3.7 Group and Summarise Females Data by Age Group
 ```{r, echo=TRUE}
 females <- females %>% group_by(AG) %>% summarize(cover = sum(Pop))
 ```
 
-### 2.3.7 Extract Starting Numeric Value of Females Age Group for Sorting
+### 2.3.8 Extract Starting Numeric Value of Females Age Group for Sorting
 ```{r, echo=TRUE}
 females$BandMinAge <- gsub('([0-9]+).*','\\1',females$AG)
 females$BandMinAge <- as.numeric(females$BandMinAge)
@@ -147,12 +173,12 @@ females <- females[order(females$BandMinAge, decreasing = FALSE),]
 females$Sex <- "Females"
 ```
 
-### 2.3.8 Combine Males and Females Age Band Summaries into 1 Table
+### 2.3.9 Combine Males and Females Age Band Summaries into 1 Table
 ```{r, echo=TRUE}
 MF <- rbind(males,females)
 ```
 
-### 2.3.9 Plot Visualisation
+### 2.3.10 Plot Visualisation
 ```{r, echo=TRUE}
 ggplot(MF, aes(x = reorder(AG,BandMinAge), y = cover, fill = Sex)) + 
   geom_bar(data=subset(MF, Sex == "Females"), stat = "identity", aes(y=cover)) + 
