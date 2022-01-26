@@ -15,18 +15,8 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-### 1.3.1 Install and load required libraries
-```{r, echo=TRUE}
-packages = c('tidyverse','readxl','forcats','tidyr','gridExtra','scales')
 
-for (p in packages){
-  if(!require(p, character.only = T)){
-    install.packages(p)
-  }
-  library(p, character.only = T)
-}
-```
-# 1. Task 1: Pareto Chart for Returns by Sub-Category of Products
+# Task 1: Pareto Chart for Returns by Sub-Category of Products
 ## 1.1 Challenges
 1. There are 2 sheets provided in the Excel data, one containing the full list of orders with details including the order Sub-Category, and another sheet containing only the Order IDs of returned orders. Hence, there is a need to join the 2 sheets to obtain the full details of only the returned orders.
 
@@ -38,6 +28,15 @@ for (p in packages){
 3   For the visualisation, two chart types would be required ie bar chart for the count under each Sub-Category, and a line chart for the cumulative percentage. This would involve the use of a secondary y-axis and adjustment of the scales of each axis to ensure that the visualisation is clear.
 
 ## 1.2 Sketch of Proposed Visualisation
+
+The proposed visualisation would consist of bar chart with count of returned orders on the y-axis by Sub-Category sorted in descending order on the primary x-axis. 
+
+The secondary y-axis would a line chart showing the cumulative percentage of the returned orders.
+
+Additionally, there would be a horizontal reference line to show the 80% mark.
+
+The package 'tidyverse' would be used to format the data while the package 'readxl' would be used to read the .xls file.
+
 ![Sketch of Pareto Chart](./images/Sketch_Pareto.jpg)
 
 
@@ -45,7 +44,7 @@ for (p in packages){
 
 ### 1.3.1 Install and load required libraries
 ```{r, echo=TRUE}
-packages = c('tidyverse','readxl','forcats','tidyr','gridExtra','scales')
+packages = c('tidyverse','readxl')
 
 for (p in packages){
   if(!require(p, character.only = T)){
@@ -101,7 +100,7 @@ ggplot(FC, aes(x=SubCat, y-Freq))  +
         axis.ticks = element_blank(),
         panel.background = element_blank())
 ```
-# 2. Task 2: Population Age-Sex Pyramid
+# Task 2: Population Age-Sex Pyramid
 ## 2.1 Challenges
 1. The original dataset provides the populations of males and females of various age bands living in different residential property types. Hence, there is a need to consolidate the populations of the same sex-age from the various property types.
 
@@ -111,6 +110,10 @@ ggplot(FC, aes(x=SubCat, y-Freq))  +
 
 ## 2.2 Sketch of Visualisation
 
+The visualisation would consist of horizontal bar charts. Male populations by age bands would be shown on the left side while female populations by age bands would be shown on the right side. 
+The y-axis would show the age bands in ascending order. 
+The x-axis would show the populations. The x-axis point between the male and female populations would be set at value 0, with positive numbers increasing from both sides of the point.
+
 ![Sketch of Population Pyramid](./images/Sketch_Population.jpg)
 
 
@@ -118,7 +121,7 @@ ggplot(FC, aes(x=SubCat, y-Freq))  +
 
 ### 2.3.1 Install and load required libraries
 ```{r, echo=TRUE}
-packages = c('tidyverse','readxl','forcats','tidyr','gridExtra','scales')
+packages = c('tidyverse')
 
 for (p in packages){
   if(!require(p, character.only = T)){
