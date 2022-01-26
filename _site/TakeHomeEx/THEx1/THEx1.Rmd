@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 The proposed visualisation would consist of bar chart with count of returned orders on the y-axis by Sub-Category sorted in descending order on the primary x-axis. 
 
-The secondary y-axis would a line chart showing the cumulative percentage of the returned orders.
+The secondary y-axis would be a line chart showing the cumulative percentage of the returned orders.
 
 Additionally, there would be a horizontal reference line to show the 80% mark.
 
