@@ -1,0 +1,53 @@
+---
+title: "In-class Exercise 1: Building Elegant Graphics with ggplot2"
+description: |
+  This is my first date with ggplot2.
+author:
+  - name: Bennie
+    url: https://example.com/norajones
+    affiliation: SMU MITB
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.retina = 3)
+```
+
+# Installing and loading the required libraries
+```{r}
+packages = c('tidyverse','ggrepel')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+# Import Data into R
+```{r}
+exam_data <- read_csv('data/Exam_data.csv')
+```
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x=MATHS)) + 
+  geom_histogram(bins = 20,
+   #              boundary = 100,
+                 color='grey30',
+                 fill="light blue")
+  #ggtitle("Distribution of Maths Scores")
+```
+
+
+
+
+
+
