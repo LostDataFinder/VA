@@ -86,7 +86,7 @@ FC$cpercent<- 100*FC$cumulative/sum(FC$Freq)
 
 ### 1.3.6 Plot Visualisation
 ```{r, echo=TRUE}
-ggplot(FC, aes(x=SubCat, y-Freq))  + 
+ggplot(FC, aes(x=SubCat, y=Freq))  + 
   geom_bar(stat="identity", aes(y=Freq), fill="navy") +
   geom_line(aes(group=1, y = cpercent*5.6),color="orange") +
   geom_point(aes(y = cpercent*5.6),color="orange") +

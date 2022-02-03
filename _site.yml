@@ -15,7 +15,7 @@ navbar:
         - text: "Exercise 1"
           href: "TakeHomeEx/THEx1/THEx1.html"      
         - text: "Exercise 2"
-          href: THex02.html
+          href: "TakeHomeEx/THEx2/THEx2.html"
         - text: "Exercise 3"
           href: THex03.html
         - text: "Exercise 4"

@@ -1,0 +1,104 @@
+---
+title: "Take-home Exercise 2"
+description: |
+  Animations in R
+author:
+  - name: Bennie
+    url: 
+    affiliation: SMU MITB
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## 2.3 Step-by-Step Data Visualisation Preparation
+
+### 2.3.1 Install and load required libraries
+
+```{r, echo=TRUE}
+packages = c('ggiraph','plotly','DT','patchwork','gganimate','tidyverse','readxl','gifski','gapminder','sf','tmap','rgdal','ggplot2','scales','magick','ggthemes','gapminder','tidyr')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+    }
+  library(p,character.only = T)
+}
+```
+### Remove scientific notation display for numbers
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+options(Scipen = 999)
+```
+
+### 2.3.2 Read CSV file
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+population <- read.csv("data/respopagesextod2011to2020.csv")
+```
+
+### Group population count by PA, AG, Sex and Time
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+population_summary <- population %>% group_by(Sex,PA,AG,Time) %>% summarise(Pop = sum(Pop))
+```
+
+### 2.3.5 Extract Starting Numeric Value of Age Group for Sorting
+```{r, echo=TRUE}
+population_summary$BandMinAge <- gsub('([0-9]+).*','\\1',population_summary$AG)
+population_summary$BandMinAge <- as.numeric(population_summary$BandMinAge)
+population_summary <- population_summary[order(population_summary$BandMinAge, decreasing = FALSE),]
+population_summary$PlanningArea <- toupper(population_summary$PA)
+```
+
+
+
+### 2.3.10 Plot Age-Sex Pyramid for Singapore
+```{r, echo=TRUE}
+SGpyramid <- ggplot(population_summary, aes(x = reorder(AG,BandMinAge), y = Pop, fill = Sex)) + 
+  geom_bar_interactive(data=subset(population_summary, Sex == "Females"), stat = "identity", aes(y=Pop)) + 
+  geom_text_interactive(data = subset(population_summary, Sex == "Females"), aes(y = Pop,label=''), 
+      size = 4, hjust = -0.1) +
+  geom_bar_interactive(stat = "identity", data = subset(population_summary, Sex == "Males"), aes(y=Pop * (-1)) )+
+  scale_y_continuous(name="Population", breaks=c(-150000,-100000,-50000,0,50000,100000,150000), labels = c("150,000","100,000","50,000","0","50,000","100,000","150,000") ) +
+  coord_flip()+
+  labs(title = "Singapore | Year: {frame_time}", x = "Age")+
+  theme(panel.background = element_rect(fill = 'white'))+
+  transition_time(Time)+
+  ease_aes('linear')
+SG<- image_read(animate(SGpyramid, width = 500, height=500))
+
+```
+
+
+
+
+### 2.3.10 Plot Age-Sex Pyramid for each PA
+```{r, echo=TRUE, fig.show='hold',out.width="25%", fig.keep='all'}
+setwd("C:/LostDataFinder/VA/TakeHomeEx/THEx2/images/PA")
+countPA = 0
+for (area in unique(population_summary$PA)){
+  
+  d <- subset(population_summary, PA == area)
+  plot.new()
+  PAplot<- (ggplot(d, aes(x = reorder(AG,BandMinAge), y = Pop, fill = Sex)) + 
+    geom_bar_interactive(data=subset(d, Sex == "Females"), stat = "identity", aes(y=Pop)) + 
+    geom_text_interactive(data = subset(d, Sex == "Females"), aes(y = Pop,label=''), 
+                          size = 4, hjust = -0.1) +
+    geom_bar_interactive(stat = "identity", data = subset(d, Sex == "Males"), aes(y=Pop * (-1)) )+
+    scale_y_continuous(
+    name="Population", 
+    breaks=c(-15000,-10000,-5000,0,5000,10000,15000), 
+    labels = abs(c(-15000,-10000,-5000,0,5000,10000,15000)), 
+    limits=c(-15000,15000)) +
+    coord_flip()+
+    labs(title = paste(area, " {frame_time}"), x = "Age")+
+    theme(panel.background = element_rect(fill = 'white'))+
+    transition_time(Time)+
+    ease_aes('linear'))
+  animate(PAplot, width = 500, height=500)
+  countPA = countPA + 1
+  anim_save(paste0(countPA,".gif"))
+}
+```
+
