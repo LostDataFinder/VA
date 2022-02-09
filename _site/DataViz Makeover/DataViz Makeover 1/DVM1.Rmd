@@ -1,0 +1,171 @@
+---
+title: "DataViz Makeover 1"
+description: |
+  ISSS608 Visual Analytics
+author:
+  - name: Bennie Yang
+    url: 
+    affiliation: SMU MITB
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+![Original Visualisation](./images/1original.png) 
+
+# A1. Critique on graph
+
+## Clarity
+1. **Y-axis label** should indicate what “Lpfr” stands for as it is not immediately obvious that is stands for “Labour force participation rate” (LFPR). The y-axis should also indicate “%” or “percent” as a unit of measurement.
+
+2. **Top x-axis** Age-groups are not ordered in ascending order but in ascending order of participation rate. This may provide a misleading impression that LFPR increases with age.
+
+3. **Bottom x-axis label** shows only “2015”, giving the impression that the data is for 2015 only when it is in fact plotting data for several years. After attempting to re-construct the visualisation from the data, it seems that the chart is trying to show data from 2010 to 2021.
+
+4. **Title** should be more useful instead of repeating the y-axis label.
+
+5. **Overlapping Age-group** -  The “70 & over” category consists of “70 to 74” and “74 & over” category and hence the “70 & over” category should not be displayed to avoid confusion.
+
+6.  **Chart type** used is an area chart. The area chart might not be appropriate to display percentages as it gives an impression that the chart is representing volume. A line chart would be more appropriate to show percentages.
+
+
+## Aesthetics
+1. **Bottom x-axis label** for “Year” is unnecessarily repeated for each age-group, resulting in a cluttered view.
+
+2. **Top x-axis labels** for Age-group are truncated for “70 & over” and “75 & over”. There is duplication of information in the top x-axis labels and legend. Either one of them could be removed to avoid duplication and to reduce clutter in the chart.
+
+3. **Vertical gridlines** within each Age-band with no apparent meaning. When put alongside the different age-groups, the internal gridlines look unevenly spaced across the entire chart.
+
+![Critique in red](./images/A1_Critic.jpg) 
+
+# A2. Alternative Data Graphical Presentation
+
+## Sketch 1: Line plot of LFPR against Year
+
+To visualise the changes in LFPR of each age-group clearly, it is proposed to use a line chart with LFPR on the y-axis and Year on the x-axis. Each line would represent each age-group.
+
+### Advantages
+1. Based on the height of each line on the chart, it would be easy to visualise the age-groups with high and low LFPR. 
+
+2. Users of the chart would also be able to visualise the movement of LFPR for each age group over the years in chronological order.
+
+![Sketch 1](./images/Sketch1.jpg) 
+
+
+
+## Sketch 2: Line plot of LFPR against Age
+
+To facilitate visualisation of how LFPR varies with Age, a line chart of LFPR on the y-axis and Age-group on the x-axis could be used. Each line one the chart would represent the Year.
+
+### Advantages
+1. Using this chart, users would be able to identify peaks or troughs of LFPR across the Age-groups.
+
+2. By comparing the heights of the lines, users can easily identify years in which there were general increases or decreases in LFPR.
+
+![Sketch 2](./images/Sketch2.jpg) 
+
+# A3. Proposed Data Visualisation
+
+## Line Chart of LFPR vs Year (2010-2021)
+![Chart 1](./images/FinalChart1.jpg) 
+## Line Chart of LFPR vs Age (2010-2021)
+![Chart 2](./images/FinalChart2.jpg) 
+
+# A4. Step-by-step Description on Visualisation Preparation
+
+### Data Wrangling
+
+The original data was in an Excel file “mrsd_29_Res_LFPR_28Jan2022.xlsx”. 
+
+From the Excel file, tab “mrsd_Res_LFPR_1” was removed as it was not required.
+
+In the remaining tab “mrsd_Res_LFPR_2”, the LFPR data was in table with the different Years as column headers and Age groups as rows. 
+
+The table titles and footnotes in the Excel file were removed. Data on Male and Female LFPR was removed as they would not be used.
+
+![mrsd_29_Res_LFPR_28Jan2022.xlsx](./images/ExcelOriginal.jpg) 
+
+For remaining data on overall LFPR, the Year columns were stacked to facilitate further visualisation in Tableau.
+![Clean Data](./images/CleanData.jpg) 
+### Load data to Tableau
+
+1. Launch Tableau. Under “File” tab, click “Open”. Select data Excel.
+![](./images/Step1.jpg) 
+2. Click and Drag tab with data to the right panel.
+![](./images/Step2.jpg) 
+
+### Plot Chart 1: LFPR against Year
+
+3. Under a new Sheet, click on the triangle dropdown of the Resident LFPR field and click “Convert to Measure”. 
+
+![](./images/Step3.jpg) 
+4. Drag the “Year” variable to the “Columns” field. Drag the LFPR variable to the “Rows” field. From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Color” square in “Marks” card. From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Label” square in “Marks” card.
+
+![](./images/Step4.jpg) 
+5. On the dropdown triangle of the “Resident LFPR” variable, click on “Change Data Type” > “Number (decimal)”.
+
+![](./images/Step5.jpg) 
+6. In the “Rows” field, click on the triangle dropdown of “CNTD(LFPR)” > “Measure” > “Average”
+![](./images/Step6.jpg) 
+7. In the “Columns” field, click on the triangle dropdown of “Year” > “Discrete”.
+![](./images/Step7.jpg) 
+
+In the “Columns” field, click on the triangle dropdown of “Year” > “Filter…”
+![](./images/Step7a.jpg) 
+Check only the required Years ie 2010 to 2021. Click “OK”.
+![](./images/Step7b.jpg)
+
+8. Right-click on y-axis, “Edit axis” to edit the Range and Axis title
+![](./images/Step8.jpg)
+![](./images/Step8a.jpg)
+9. On the dropdown triangle of “Age (Years)” variable, click on “Filter” and uncheck the “Total”. Click “OK”.
+
+![](./images/Step9.jpg)
+10. Double-click on chart title to edit title.
+
+![](./images/Step10.jpg)
+
+### Plot Chart 2: LFPR against Age
+
+1. Under a new sheet, Drag the “Age (Years)” variable to the “Columns” field. Drag the LFPR variable to the “Rows” field. 
+From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Color” panel in “Marks” card. Edit the colors of the lines using the “Color” panel.
+From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Label” panel in “Marks” card. Adjust the appearance of the labels using the “Label” panel.
+
+2. In the “Data” panel on the left, click on the triangle dropdown of the “Resident LFPR” variable and click “Convert to Measure” and “Convert to Continuous”. Drag the “Resident LFPR” variable to the “Rows” field.
+
+3. Drag the “Year” variable to the “Marks” card, “Color” panel. Click on the triangle dropdown of “Year” > “Discrete”.
+
+4. In the “Columns” field, “Age (Years)” variable dropdown, click “Filter”, uncheck “Total” and click “OK”.
+
+# Q5. Describe three major observations revealed by the data visualisation prepared.(15 marks)
+
+## Observation 1
+Age group 30-34 had the highest LFPR for most years except for 2010, 2011 and 2015. This suggests that this age band is one of the most employable, with a high LFPR of 88% to 93%.
+
+Age group for 75 and over has the lowest LFPR among all age groups over the years, suggesting that this age group is the least economically productive.
+
+## Observation 2
+For age groups from 60 year onwards, the LFPR has been steadily increasing since 2010, suggesting that there is an increasing trend for people to continue to work longer. 
+
+In 2012, the Retirement and Re-employment Act was enacted to employees to work beyond the retirement age of 62 up to age 65.^[1]^ In 2017, the reemployment age was further raised to 67.^[2]^
+ 
+
+However, there is no marked change in trend for these age groups before and after the enactment of the various legislations, suggesting that the steady increase in LFPR is being driven by other factors especially for age groups 70 and above which are not affected by the legislation.
+
+
+## Observation 3
+For age group 20-24, the LFPR has been steadily decreasing since 2010 with a slight rebound in 2015 and 2021. The downward trend could be due to an increasing proportion of persons in the age band choosing to pursue further education before entering the labour force. In line with this reasoning, the gross enrollment ratio for tertiary education in Singapore, which increased from 71% in 2010 to 91% in 2019.^[3]^
+
+# References
+1. https://www.mom.gov.sg/-/media/mom/documents/press-releases/2010/tripartite-guidelines-on-the-re-employment-of-older-employees.pdf
+
+2. https://www.mom.gov.sg/newsroom/speeches/2017/0109-retirement-and-re-employment-amendment-bill-2016-second-reading-speech-by-minister
+
+3. https://data.gov.sg/dataset/combined-and-gross-enrolment-ratio-for-primary-secondary-tertiary-education?view_id=6439cb96-c8f3-46c1-a0c6-7dae233a6783&resource_id=9dcdd20c-e24c-46a4-9044-cc2b2745a7fc  
+
+
