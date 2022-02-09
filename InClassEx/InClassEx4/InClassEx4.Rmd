@@ -1,0 +1,143 @@
+---
+title: "Inclass Exercise 4"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### 1.3.1 Install and load required libraries
+```{r, echo=TRUE}
+packages = c('ggstatsplot','ggside','tidyverse','PMCMRplus')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+```{r, echo=TRUE}
+exam <- read_csv("data/Exam_data.csv")
+```
+
+```{r, echo=TRUE}
+set.seed(1234)
+
+gghistostats(
+  data=exam,
+  x = ENGLISH,
+  type = "b",
+  test.value = 60,
+  xlab = "English scores"
+)
+
+```
+```{r, echo=TRUE}
+ggbetweenstats(
+  data=exam,
+  x = GENDER,
+  y=MATHS,
+  type = "np",
+  messages = FALSE
+)
+```
+
+```{r, echo=TRUE}
+ggbetweenstats(
+  data=exam,
+  x = RACE,
+  y=ENGLISH,
+  type = "np",
+  mean.ci = TRUE,
+  pairwise.comparisons = TRUE,
+  pairwise.display = "s",
+  p.adjust.method = "fdr",
+  messages = FALSE
+)
+
+```
+
+```{r, echo=TRUE}
+ggscatterstats(
+  data=exam,
+  x = MATHS,
+  y=ENGLISH,
+  marginal = TRUE
+)
+
+```
+```{r, echo=TRUE}
+exam1 <- exam %>%
+  mutate(MATHS_bins = 
+           cut(MATHS, 
+               breaks= c(0,60,75,85,100)))
+
+ggbarstats(exam1,
+           x= MATHS_bins,
+           y = GENDER)
+```
+
+# Toyota Corolla Case Study
+```{r, echo=TRUE}
+packages = c('readxl','report','performance','parameters','see')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+```{r, echo=TRUE}
+car_resale <- read_xls("data/ToyotaCorolla.xls","data")
+```
+
+```{r, echo=TRUE}
+model <- lm(Price ~ Age_08_04 + Mfg_Year + KM + Weight + Guarantee_Period, 
+            data = car_resale)
+model
+```
+
+```{r, echo=TRUE}
+
+check_c <- check_collinearity(model)
+print(check_c)
+plot(check_c)
+```
+
+```{r, echo=TRUE}
+check_n<- check_normality(model)
+print(check_n)
+plot(check_n)
+```
+
+```{r, echo=TRUE}
+check_h<- check_heteroscedasticity(model)
+print(check_h)
+plot(check_h)
+```
+
+```{r, echo=TRUE}
+check_m<- check_model(model)
+print(check_m)
+plot(check_m)
+```
+
+```{r, echo=TRUE}
+plot(parameters(model))
+```
+
+```{r, echo=TRUE}
+ggcoefstats(model,output="plot")
+```
