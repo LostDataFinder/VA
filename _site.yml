@@ -16,22 +16,22 @@ navbar:
           href: "TakeHomeEx/THEx1/THEx1.html"      
         - text: "Exercise 2"
           href: "TakeHomeEx/THEx2/THEx2.html"
-        - text: "Exercise 3"
-          href: THex03.html
-        - text: "Exercise 4"
-          href: THex04.html
-        - text: "Exercise 5"
-          href: THex05.html
-        - text: "Exercise 6"
-          href: THex06.html
-        - text: "Exercise 7"
-          href: THex07.html
-        - text: "Exercise 8"
-          href: THex08.html 
+        #- text: "Exercise 3"
+        #  href: THex03.html
+        #- text: "Exercise 4"
+        #  href: THex04.html
+        #- text: "Exercise 5"
+        #  href: THex05.html
+        #- text: "Exercise 6"
+        #  href: THex06.html
+        #- text: "Exercise 7"
+        #  href: THex07.html
+        #- text: "Exercise 8"
+        #  href: THex08.html 
     - text: "DataViz Makeover"
       menu:
-        - text: "DataViz Makeover 1"
-          href: "DataViz Makeover/DataViz Makeover 1/DVM1.html"
-        - text: "DataViz 2"
-          href: DataViz2.html
+        #- text: "DataViz Makeover 1"
+        #  href: "DataViz Makeover/DataViz Makeover 1/DVM1.html"
+        #- text: "DataViz 2"
+        #  href: DataViz2.html
 output: distill::distill_article
