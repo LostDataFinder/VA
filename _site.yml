@@ -30,8 +30,8 @@ navbar:
         #  href: THex08.html 
     - text: "DataViz Makeover"
       menu:
-        #- text: "DataViz Makeover 1"
-        #  href: "DataViz Makeover/DataViz Makeover 1/DVM1.html"
+        - text: "DataViz Makeover 1"
+          href: "DataViz Makeover/DataViz Makeover 1/DVM1.html"
         #- text: "DataViz 2"
         #  href: DataViz2.html
 output: distill::distill_article

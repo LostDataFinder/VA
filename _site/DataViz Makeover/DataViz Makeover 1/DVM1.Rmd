@@ -16,16 +16,16 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-![Original Visualisation](./images/1original.png) 
+![Original Visualisation](./images/1original.png){width=100%} 
 
-# A1. Critique on graph
+#  <font size="7">A1. Critique on graph </font>
 
 ## Clarity
 1. **Y-axis label** should indicate what “Lpfr” stands for as it is not immediately obvious that is stands for “Labour force participation rate” (LFPR). The y-axis should also indicate “%” or “percent” as a unit of measurement.
 
-2. **Top x-axis** Age-groups are not ordered in ascending order but in ascending order of participation rate. This may provide a misleading impression that LFPR increases with age.
+2. **Top x-axis** Age-groups are not ordered in ascending Age but in ascending participation rate. This may provide a misleading impression that LFPR increases with age.
 
-3. **Bottom x-axis label** shows only “2015”, giving the impression that the data is for 2015 only when it is in fact plotting data for several years. After attempting to re-construct the visualisation from the data, it seems that the chart is trying to show data from 2010 to 2021.
+3. **Bottom x-axis label** shows only “2015”, giving the wrong impression that the data is for 2015 only when it is in fact plotting data for several years. After attempting to re-construct the visualisation from the data, it seems that the chart is trying to show data from 2010 to 2021.
 
 4. **Title** should be more useful instead of repeating the y-axis label.
 
@@ -41,9 +41,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 3. **Vertical gridlines** within each Age-band with no apparent meaning. When put alongside the different age-groups, the internal gridlines look unevenly spaced across the entire chart.
 
-![Critique in red](./images/A1_Critic.jpg) 
+![Critique in red](./images/A1_Critic.jpg){width=100%} 
 
-# A2. Alternative Data Graphical Presentation
+# <font size="7">A2. Alternative Data Graphical Presentation</font>
 
 ## Sketch 1: Line plot of LFPR against Year
 
@@ -54,7 +54,7 @@ To visualise the changes in LFPR of each age-group clearly, it is proposed to us
 
 2. Users of the chart would also be able to visualise the movement of LFPR for each age group over the years in chronological order.
 
-![Sketch 1](./images/Sketch1.jpg) 
+![Sketch 1](./images/Sketch1.jpg){width=100%}
 
 
 
@@ -67,16 +67,24 @@ To facilitate visualisation of how LFPR varies with Age, a line chart of LFPR on
 
 2. By comparing the heights of the lines, users can easily identify years in which there were general increases or decreases in LFPR.
 
-![Sketch 2](./images/Sketch2.jpg) 
+![Sketch 2](./images/Sketch2.jpg){width=100%}
 
-# A3. Proposed Data Visualisation
+# <font size="7">A3. Proposed Data Visualisation</font>
 
-## Line Chart of LFPR vs Year (2010-2021)
-![Chart 1](./images/FinalChart1.jpg) 
-## Line Chart of LFPR vs Age (2010-2021)
-![Chart 2](./images/FinalChart2.jpg) 
+## Dashboard
+The overall visualisation dashboard would consist of 2 charts:
 
-# A4. Step-by-step Description on Visualisation Preparation
+1. Line Chart of LFPR vs Year (2010-2021)
+
+2. Line Chart of LFPR vs Age (2010-2021)
+
+The dashboard is available on Tableau Public via this [link](https://public.tableau.com/app/profile/bennie5728/viz/DVM1Charts/Dashboard1?publish=yes).
+
+![Overall Dashboard](./images/Dashboard.png){width=100%}
+
+
+
+# <font size="7">A4. Step-by-step Description on Visualisation Preparation</font>
 
 ### Data Wrangling
 
@@ -88,61 +96,76 @@ In the remaining tab “mrsd_Res_LFPR_2”, the LFPR data was in table with the 
 
 The table titles and footnotes in the Excel file were removed. Data on Male and Female LFPR was removed as they would not be used.
 
-![mrsd_29_Res_LFPR_28Jan2022.xlsx](./images/ExcelOriginal.jpg) 
+![mrsd_29_Res_LFPR_28Jan2022.xlsx](./images/ExcelOriginal.jpg){width=100%}
 
-For remaining data on overall LFPR, the Year columns were stacked to facilitate further visualisation in Tableau.
-![Clean Data](./images/CleanData.jpg) 
+For remaining data on overall LFPR, the Year columns were stacked to facilitate further visualisation in Tableau. The clean data was saved into an Excel file "Clean Data.xlsx".
+![Clean Data](./images/CleanData.jpg){width=50%} 
+
 ### Load data to Tableau
 
-1. Launch Tableau. Under “File” tab, click “Open”. Select data Excel.
-![](./images/Step1.jpg) 
+1. Launch Tableau. Under “File” tab, click “Open”. Select data Excel "Clean Data.xlsx".
+![](./images/Step1.jpg){width=100%}
 2. Click and Drag tab with data to the right panel.
-![](./images/Step2.jpg) 
+![](./images/Step2.jpg){width=100%}
 
 ### Plot Chart 1: LFPR against Year
 
-3. Under a new Sheet, click on the triangle dropdown of the Resident LFPR field and click “Convert to Measure”. 
+3. Rename a new sheet as "LFPR by Year". In the Sheet, click on the triangle dropdown of the Resident LFPR field and click “Convert to Measure”. 
 
-![](./images/Step3.jpg) 
+![](./images/Step3.jpg){width=100%} 
 4. Drag the “Year” variable to the “Columns” field. Drag the LFPR variable to the “Rows” field. From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Color” square in “Marks” card. From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Label” square in “Marks” card.
 
 ![](./images/Step4.jpg) 
 5. On the dropdown triangle of the “Resident LFPR” variable, click on “Change Data Type” > “Number (decimal)”.
 
-![](./images/Step5.jpg) 
+![](./images/Step5.jpg){width=100%} 
 6. In the “Rows” field, click on the triangle dropdown of “CNTD(LFPR)” > “Measure” > “Average”
-![](./images/Step6.jpg) 
+![](./images/Step6.jpg){width=100%} 
 7. In the “Columns” field, click on the triangle dropdown of “Year” > “Discrete”.
-![](./images/Step7.jpg) 
+![](./images/Step7.jpg){width=100%} 
 
 In the “Columns” field, click on the triangle dropdown of “Year” > “Filter…”
-![](./images/Step7a.jpg) 
+![](./images/Step7a.jpg){width=100%} 
 Check only the required Years ie 2010 to 2021. Click “OK”.
-![](./images/Step7b.jpg)
+![](./images/Step7b.jpg){width=50%}
 
 8. Right-click on y-axis, “Edit axis” to edit the Range and Axis title
-![](./images/Step8.jpg)
-![](./images/Step8a.jpg)
+![](./images/Step8.jpg){width=100%}
+![](./images/Step8a.jpg){width=50%}
 9. On the dropdown triangle of “Age (Years)” variable, click on “Filter” and uncheck the “Total”. Click “OK”.
 
-![](./images/Step9.jpg)
+![](./images/Step9.jpg){width=100%}
 10. Double-click on chart title to edit title.
 
-![](./images/Step10.jpg)
+![](./images/Step10.jpg){width=100%}
 
 ### Plot Chart 2: LFPR against Age
 
-1. Under a new sheet, Drag the “Age (Years)” variable to the “Columns” field. Drag the LFPR variable to the “Rows” field. 
+1. Rename a new sheet "LFPR by Age". In the new sheet, drag the “Age (Years)” variable to the “Columns” field. Drag the LFPR variable to the “Rows” field. 
 From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Color” panel in “Marks” card. Edit the colors of the lines using the “Color” panel.
 From the “Data” panel on the left, Drag the “Age (Years)” variable to the “Label” panel in “Marks” card. Adjust the appearance of the labels using the “Label” panel.
+![](./images/Step11.jpg){width=100%}
 
-2. In the “Data” panel on the left, click on the triangle dropdown of the “Resident LFPR” variable and click “Convert to Measure” and “Convert to Continuous”. Drag the “Resident LFPR” variable to the “Rows” field.
+2. In the “Data” panel on the left, click on the triangle dropdown of the “Resident LFPR” variable and click “Convert to Measure” and “Convert to Continuous”. 
+![](./images/Step12.jpg){width=50%}
 
-3. Drag the “Year” variable to the “Marks” card, “Color” panel. Click on the triangle dropdown of “Year” > “Discrete”.
 
-4. In the “Columns” field, “Age (Years)” variable dropdown, click “Filter”, uncheck “Total” and click “OK”.
+3. In the “Columns” field, “Age (Years)” variable dropdown, click “Filter”, uncheck “Total” and click “OK”.
+![](./images/Step13.jpg){width=100%}
 
-# Q5. Describe three major observations revealed by the data visualisation prepared.(15 marks)
+### Create Dashboard
+
+1. Right-click on the bottom bar and click "New Dashboard" to create a new dashboard.
+![](./images/Step14.jpg){width=50%}
+
+2. Drag and drop the sheets "LFPR by Year" and "LFPR by Age" from the Sheets panel to the dashboard space. Drag the edges of the panels in the dashboard to adjust and align the panels.
+
+![](./images/Step15.jpg){width=100%}
+
+3.  To publish the dashboard on Tableau Public, click on the "Server" tab, "Tableau Public", "Save to Tableau Public...".
+![](./images/Step16.jpg){width=100%}
+
+# <font size="7">A5. Major Observations</font>
 
 ## Observation 1
 Age group 30-34 had the highest LFPR for most years except for 2010, 2011 and 2015. This suggests that this age band is one of the most employable, with a high LFPR of 88% to 93%.
@@ -162,10 +185,10 @@ However, there is no marked change in trend for these age groups before and afte
 For age group 20-24, the LFPR has been steadily decreasing since 2010 with a slight rebound in 2015 and 2021. The downward trend could be due to an increasing proportion of persons in the age band choosing to pursue further education before entering the labour force. In line with this reasoning, the gross enrollment ratio for tertiary education in Singapore, which increased from 71% in 2010 to 91% in 2019.^[3]^
 
 # References
-1. https://www.mom.gov.sg/-/media/mom/documents/press-releases/2010/tripartite-guidelines-on-the-re-employment-of-older-employees.pdf
+1. Ministry of Manpower (2010) *Tripartite Guidelines on the Re-employment of Older Employees*. Retrieved 13 February 2022 from:  https://www.mom.gov.sg/-/media/mom/documents/press-releases/2010/tripartite-guidelines-on-the-re-employment-of-older-employees.pdf
 
-2. https://www.mom.gov.sg/newsroom/speeches/2017/0109-retirement-and-re-employment-amendment-bill-2016-second-reading-speech-by-minister
+2. Ministry of Manpower (2017) *Retirement and Re-employment (Amendment) Bill 2016 Second Reading Speech at Parliament*. Retrieved 13 February 2022 from: https://www.mom.gov.sg/newsroom/speeches/2017/0109-retirement-and-re-employment-amendment-bill-2016-second-reading-speech-by-minister
 
-3. https://data.gov.sg/dataset/combined-and-gross-enrolment-ratio-for-primary-secondary-tertiary-education?view_id=6439cb96-c8f3-46c1-a0c6-7dae233a6783&resource_id=9dcdd20c-e24c-46a4-9044-cc2b2745a7fc  
+3. Data.gov.sg (2021) *Combined And Gross Enrolment Ratio For Primary, Secondary & Tertiary Education*. Retrieved 13 February 2022 from: https://data.gov.sg/dataset/combined-and-gross-enrolment-ratio-for-primary-secondary-tertiary-education?view_id=6439cb96-c8f3-46c1-a0c6-7dae233a6783&resource_id=9dcdd20c-e24c-46a4-9044-cc2b2745a7fc  
 
 

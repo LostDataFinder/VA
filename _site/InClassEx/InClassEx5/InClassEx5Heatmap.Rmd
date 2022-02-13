@@ -1,0 +1,114 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Install packages
+```{r}
+packages = c('seriation', 'dendextend', 'heatmaply', 'tidyverse')
+
+for(p in packages){library
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+Read file
+```{r}
+wh <- read_csv("data/WHData-2018.csv")
+```
+
+Assign 1st column "Country" values as row names
+```{r}
+row.names(wh) <- wh$Country
+```
+
+
+```{r}
+wh1 <- dplyr::select(wh, c(3, 7:12))
+wh_matrix <- data.matrix(wh)
+```
+
+
+```{r, fig.height=15}
+wh_heatmap <- heatmap(wh_matrix,
+                      Rowv=NA, Colv=NA)
+```
+
+Plot cluster heatmap
+```{r, fig.height=13, fig.width=15}
+
+
+wh_heatmap <- heatmap(wh_matrix)
+
+```
+
+Normalise
+```{r}
+
+
+wh_heatmap <- heatmap(wh_matrix,
+                      scale="column",
+                      cexRow = 0.6, 
+                      cexCol = 0.8,
+                      margins = c(10, 4)) # margins use to fully display x-axis labels
+
+```
+Create interactive heatmap using heatmaply
+```{r}
+heatmaply(mtcars)
+```
+
+
+```{r}
+heatmaply(wh_matrix[, -c(1, 2, 4, 5)])
+```
+Scaling
+```{r}
+
+
+heatmaply(wh_matrix[, -c(1, 2, 4, 5)],
+          scale = "column")
+
+```
+Normalise
+```{r}
+
+
+heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]))
+
+
+
+```
+
+
+
+Finishing touches
+```{r, fig.height=50, fig.width=15}
+
+heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
+          Colv=NA,
+          seriate = "none",
+          colors = Blues,
+          k_row = 5, #specify number of clusters
+          margins = c(NA,10,60,NA),
+          fontsize_row = 5,
+          fontsize_col = 5,
+          main="World Happiness Score and Variables by Country, 2018 \nDataTransformation using Normalise Method",
+          xlab = "World Happiness Indicators",
+          ylab = "World Countries"
+          )
+```

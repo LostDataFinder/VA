@@ -1,0 +1,94 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+
+
+packages = c('GGally', 'plotly', 'parcoords', 'parallelPlot', 'tidyverse')
+
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+
+```
+
+```{r}
+wh <- read_csv("data/WHData-2018.csv")
+```
+Plot static graph using ggparcoord
+```{r}
+ggparcoord(data = wh, 
+           columns = c(7:12))
+```
+
+```{r}
+ggparcoord(data = wh, 
+           columns = c(7:12), 
+           groupColumn = 2,
+           scale = "uniminmax",
+           alphaLines = 0.2,
+           boxplot = TRUE, #display boxplot
+           title = "Parallel Coord. Plot of World Happines Attributes")
+```
+
+```{r}
+ggparcoord(data = wh, 
+           columns = c(7:12), 
+           groupColumn = 2,
+           scale = "uniminmax", 
+           boxplot = TRUE, 
+           title = "Parallel Coord. Plot of World Happines Attributes") +
+  facet_wrap(~ Region) #facets based on Region
+```
+
+```{r}
+parcoords(wh[,7:12])
+```
+
+Make interactive using arguments reorderable, brushMode in parcoords
+```{r}
+parcoords(
+ wh[,7:12],
+ rownames = FALSE,
+ reorderable = T, #enable reordering of axes
+ brushMode = '1D-axes', #specify brushmode
+ alpha = 0.3, # set the opacity of the polylines. The value range from 0 (completely transparent) to 1 (no opacity).
+ alphaOnBrushed = 0.2,#set opacity from 0 to 1 when brushed (default to 0).
+ width = 700,
+ height = 400)
+```
+
+Using parallelPlot
+```{r}
+wh1 <- wh %>%
+  select("Happiness score", c(7:12))
+parallelPlot(wh1, rotateTitle = TRUE,
+             continuousCS = "YlOrRd",)
+
+
+```
+
+Plot with histogram
+```{r}
+histoVisibility <- rep(TRUE, ncol(wh1))
+parallelPlot(wh1,
+             rotateTitle = TRUE,
+             histoVisibility = histoVisibility)
+```

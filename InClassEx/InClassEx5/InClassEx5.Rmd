@@ -1,0 +1,160 @@
+---
+title: "In-Class Exercise 5"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, echo=TRUE}
+
+packages = c('corrplot', 'tidyverse', 'ggstatsplot','corrgram','ellipse','ggcorrplot')
+
+for(p in packages){library
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+```{r}
+wine <- read_csv("data/wine_quality.csv")
+```
+
+```{r, fig.width=7, fig.height=7}
+pairs(wine[,2:12])
+
+```
+
+Don't show upper panel using upper.panel argument
+```{r, echo=TRUE, , fig.width=7, fig.height=7}
+pairs(wine[,2:12], upper.panel = NULL)
+```
+
+Don't show upper panel using lower.panel argument
+```{r, echo=TRUE, fig.width=7, fig.height=7}
+pairs(wine[,2:12], lower.panel = NULL)
+```
+
+
+Show correlation coefficients
+```{r, fig.width=7, fig.height=7}
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...) {
+usr <- par("usr")
+on.exit(par(usr))
+par(usr = c(0, 1, 0, 1))
+r <- abs(cor(x, y, use="complete.obs"))
+txt <- format(c(r, 0.123456789), digits=digits)[1]
+txt <- paste(prefix, txt, sep="")
+if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+text(0.5, 0.5, txt, cex = cex.cor * (1 + r) / 2)
+}
+
+pairs(wine[,2:12], 
+      upper.panel = panel.cor)
+```
+Note: X in correlogram mean not statistically significant
+```{r, fig.width=7, fig.height=7}
+
+
+ggstatsplot::ggcorrmat(
+  data = wine, 
+  cor.vars = 1:11,
+  ggcorrplot.args = list(outline.color = "black", 
+                         hc.order = TRUE,
+                         tl.cex = 10),
+  title    = "Correlogram for wine dataset",
+  subtitle = "Four pairs are no significant at p < 0.05",
+  type = "p")
+  
+
+ggplot.component = list(
+    theme(text=element_text(size=3),
+      axis.text.x = element_text(size = 5),
+      axis.text.y = element_text(size = 5)))
+
+```
+
+```{r}
+
+
+ggplot.component = list(
+    theme(text=element_text(size=5),
+      axis.text.x = element_text(size = 8),
+      axis.text.y = element_text(size = 8)))
+
+```
+
+Build multiple plots 
+```{r, fig.width=14, fig.height=7}
+
+
+grouped_ggcorrmat(
+  data = wine,
+  cor.vars = 1:11,
+  grouping.var = type, #to specify basis to split data for diff plots
+  type = "robust",
+  p.adjust.method = "holm",
+  plotgrid.args = list(ncol = 2), #to specify number of columns in overall image
+  ggcorrplot.args = list(outline.color = "black", 
+                         hc.order = TRUE,
+                         tl.cex = 10),
+  annotation.args = list(
+    tag_levels = "a", #numbering of subsplots "a" for small letters, "I" for Roman, "1" for numbers
+    title = "Correlogram for wine dataset", #Overall title
+    subtitle = "The measures are: alcohol, sulphates, fixed acidity, citric acid, chlorides, residual sugar, density, free sulfur dioxide and volatile acidity", # overall subtitle
+    caption = "Dataset: UCI Machine Learning Repository"
+  )
+)
+
+```
+
+Using corrplot for clustering.
+Generate correlation matrix
+```{r, fig.width=14, fig.height=7}
+wine.cor <- cor(wine[, 2:11])
+```
+
+Plot the corrplot. Default visual is circles
+```{r, fig.width=7, fig.height=7}
+corrplot(wine.cor)
+```
+Apply clustering using arguments order, hclust.method. Display rectangle to group clusters using addrect.
+```{r, fig.width=7, fig.height=7}
+corrplot(wine.cor, 
+               tl.pos = "lt",
+               tl.col = "black",
+               order="hclust",
+               hclust.method="ward.D",
+               addrect =3)
+```
+Plot the corrplot. Default visual is circles. specify visual using method argument.
+```{r, fig.width=7, fig.height=7}
+corrplot(wine.cor, 
+         method = "ellipse", 
+         type="lower",
+         diag = FALSE,
+         tl.col = "black")
+```
+Plot mixed plot using corrplot.mixed()
+```{r, fig.width=7, fig.height=7}
+corrplot.mixed(wine.cor, 
+               lower = "ellipse", 
+               upper = "number",
+               tl.pos = "lt",
+               diag = "l",
+               tl.col = "black",
+               order="hclust",
+               hclust.method="ward.D",
+               addrect =3)
+```
