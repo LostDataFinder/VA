@@ -16,8 +16,8 @@ navbar:
           href: "TakeHomeEx/THEx1/THEx1.html"      
         - text: "Exercise 2"
           href: "TakeHomeEx/THEx2/THEx2.html"
-        #- text: "Exercise 3"
-        #  href: THex03.html
+        - text: "Exercise 3"
+          href: "TakeHomeEx/THEx3/THEx3.html"
         #- text: "Exercise 4"
         #  href: THex04.html
         #- text: "Exercise 5"
