@@ -33,7 +33,7 @@ Create a data visualisation to segment kid drinks and other by nutrition indicat
 
 
 # 2.0 Sketch of Visualisation
-
+![Sketch of Heatmap](./images/Sketch.jpg)
 
 
 # 3.0 Step-by-step Preparation
