@@ -125,7 +125,7 @@ kids_drink_matrix <- data.matrix(kids_drink_matrix)
 
 ## 3.4 Determine optimal number of clusters
 
-Using the Elbow method, determine the optimal number of clusters
+Using the Elbow method, determine the optimal number of clusters.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 # Elbow method
@@ -134,8 +134,10 @@ fviz_nbclust(kids_drink_matrix, kmeans, method = "wss") +
   labs(subtitle = "Elbow method")
 ```
 
+The optimal number of clusters is 4.
+
 ## 3.5 Plot interactive heatmap
-```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.height=7, fig.width=30}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.height=9, fig.width=30}
 heatmaply(normalize(kids_drink_matrix),
           Colv=NA,
           seriate = "none",
@@ -143,9 +145,9 @@ heatmaply(normalize(kids_drink_matrix),
           k_row = 4,
           margins = c(NA,200,60,NA),
           fontsize_row = 4,
-          fontsize_col = 5,
-          main="Nutrition Indicators by Drink \nData Transformation using Normalise Method",
-          xlab = "Nutrition Indicators",
+          fontsize_col = 7,
+          main="Nutrition Indicators by Drink",
+          xlab = "Nutrition Indicators Normalised",
           ylab = "Kids Drink & Others"
           )
 
@@ -166,5 +168,5 @@ There were 4 clusters obtained:
 
 Manual observation is required to determine the defining characteristics of each cluster, and this may be subjective.
 
-The height heatmap is constrained within 1 page length in order for users to easily observe the differences between each cluster on the heatmap. However, this results in the names of the drinks being cluttered on the left margin. Fortunately, the interactive tooltip allows users to identify each row of the heatmap.
+The heatmap height is constrained within 1 page length in order for users to easily observe the differences between each cluster on the heatmap. However, this results in the names of the drinks being cluttered on the left margin. Fortunately, the interactive tooltip allows users to identify each row of the heatmap.
 

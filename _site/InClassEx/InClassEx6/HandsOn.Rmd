@@ -1,0 +1,148 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r}
+packages = c('scales', 'viridis', 
+             'lubridate', 'ggthemes', 
+             'gridExtra', 'tidyverse', 
+             'readxl', 'knitr',
+             'data.table')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+```
+
+```{r}
+attacks <- read_csv("data/eventlog.csv")
+```
+```{r}
+kable(head(attacks))
+```
+
+Create function 
+```{r, echo=TRUE}
+make_hr_wkday <- function(ts, sc, tz) {
+  real_times <- ymd_hms(ts, 
+                        tz = tz[1], 
+                        quiet = TRUE)
+  dt <- data.table(source_country = sc,
+                   wkday = weekdays(real_times),
+                   hour = hour(real_times))
+  return(dt)
+  }
+```
+
+```{r, echo = TRUE}
+wkday_levels <- c('Sunday', 'Monday', 
+                  'Tuesday', 'Wednesday', 
+                  'Thursday', 'Friday', 
+                  'Saturday')
+attacks <- attacks %>%
+  group_by(tz) %>%
+  do(make_hr_wkday(.$timestamp, 
+                   .$source_country, 
+                   .$tz ) ) %>% 
+  ungroup() %>% 
+  mutate(wkday = factor(wkday, 
+                        levels = wkday_levels),
+         hour  = factor(hour, 
+                        levels = 0:23))
+```
+
+```{r, echo =TRUE}
+grouped <- attacks %>% 
+  count(wkday, hour) %>% 
+  ungroup()
+
+ggplot(grouped, 
+       aes(hour, 
+           wkday, 
+           fill = n)) + 
+geom_tile(color = "white", 
+          size = 0.1) + 
+theme_tufte(base_family = "Helvetica") + 
+coord_equal() + 
+scale_fill_viridis(name = "# of Events", 
+                   label = comma) + 
+labs(x = NULL, 
+     y = NULL, 
+     title = "Events per day of week & time of day") +
+theme(axis.ticks = element_blank(),
+      plot.title = element_text(hjust = 0.5),
+      legend.title = element_text(size = 8),
+      legend.text = element_text(size = 6) )
+
+
+```
+
+
+Cycle Plot
+
+
+```{r}
+air <- read_excel("data/arrivals_by_air.xlsx")
+```
+
+Create new cols for month and year
+```{r}
+air$month <- factor(month(air$`Month-Year`), 
+                    levels=1:12, 
+                    labels=month.abb, 
+                    ordered=TRUE) 
+air$year <- year(ymd(air$`Month-Year`))
+```
+
+
+```{r}
+New_Zealand <- air %>% 
+  select(`New Zealand`, 
+         month, 
+         year) %>%
+  filter(year >= 2010)
+```
+
+Create horizontal reference line data
+```{r}
+hline.data <- New_Zealand %>% 
+  group_by(month) %>%
+  summarise(avgvalue = mean(`New Zealand`)) %>%
+  ungroup()
+
+```
+
+
+```{r}
+ggplot() + 
+  geom_line(data=New_Zealand,
+            aes(x=year, 
+                y=`New Zealand`, 
+                group=month), 
+            colour="black") +
+  geom_hline(aes(yintercept=avgvalue), 
+             data=hline.data, 
+             linetype=6, 
+             colour="red", 
+             size=0.5) + 
+  facet_grid(~month) +
+  labs(axis.text.x = element_blank()) +
+  xlab("") +
+  ylab("No. of Visitors")
+```
