@@ -1,0 +1,85 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, echo=TRUE}
+packages = c('readr','sf','tmap','dplyr','tidyr')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+    }
+  library(p,character.only = T)
+}
+```
+
+## 3.2 Read CSV file
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+sgpools <- read.csv("data/aspatial/SGPools_svy21.csv")
+```
+
+```{r}
+sgpools_sf <- st_as_sf(
+  sgpools, 
+  coords = c("XCOORD",
+             "YCOORD"),
+             crs= 3414)
+
+```
+
+```{r}
+tmap_mode("view")
+
+tm_shape(sgpools_sf) +
+  tm_bubbles(col = "OUTLET.TYPE", 
+          size = "Gp1Gp2.Winnings",
+          border.col = "black",
+          border.lwd = 1) +
+  tm_facets(by= "OUTLET.TYPE",
+            nrow = 1,
+            sync = TRUE)
+```
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+```
+```{r}
+popagsex <- read_csv("data/aspatial/respopagsex2000to2018.csv")
+```
+```{r}
+popagsex2018_male <- popagsex %>%
+  filter(Sex == "Males") %>%
+  filter(Time == 2018) %>%
+  spread(AG, Pop) %>%
+  mutate(YOUNG = "0_to_4"+'5_to_9'+'10_to_14'+'15_to_19'+
+           '20_to_24') %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[9:13])+
+rowSums(.[15:17]))%>%
+mutate(`AGED`=rowSums(.[18:22])) %>%
+mutate(`TOTAL`=rowSums(.[5:22])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+mutate_at(.vars = vars(PA, SZ), 
+          .funs = funs(toupper)) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+         `ECONOMY ACTIVE`, `AGED`, 
+         `TOTAL`, `DEPENDENCY`) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+
+```
+
+
+
