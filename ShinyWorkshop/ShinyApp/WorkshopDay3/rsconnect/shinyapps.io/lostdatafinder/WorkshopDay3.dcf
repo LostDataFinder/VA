@@ -1,0 +1,13 @@
+name: WorkshopDay3
+title: WorkshopDay3
+username:
+account: lostdatafinder
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5763798
+bundleId: 5632909
+url: https://lostdatafinder.shinyapps.io/WorkshopDay3/
+when: 1646229776.77254
+lastSyncTime: 1646229776.77254
+asMultiple: FALSE
+asStatic: FALSE
